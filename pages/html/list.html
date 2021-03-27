@@ -1,74 +1,9 @@
-<html><script type="text/javascript" class="__REQUESTLY__SCRIPT">(function(namespace) {
-  window[namespace] = window[namespace] || {};
-  window[namespace].responseRules = {};
-
-  let open = XMLHttpRequest.prototype.open;
-  XMLHttpRequest.prototype.open = function(method) {
-    this.addEventListener('readystatechange', function() {
-      if (this.readyState === 4 && window[namespace].responseRules.hasOwnProperty(this.responseURL)) {
-        const responseRule = window[namespace].responseRules[this.responseURL];
-        const {response, id} = responseRule;
-        const responseType = this.responseType;
-        let customResponse;
-
-        customResponse = response.type === 'code' ? responseRule.evaluator({
-            method,
-            url: this.responseURL,
-            requestHeaders: this.requestHeaders,
-            requestData: this.requestData,
-            responseType: this.responseType,
-            response: this.response
-          }) : response.value;
-
-        Object.defineProperty(this, 'response', {
-          get: function () {
-            if (response.type === 'static' && responseType === 'json') {
-              return JSON.parse(customResponse);
-            }
-            return customResponse;
-          }
-        });
-
-        if (responseType === '' || responseType === 'text') {
-          Object.defineProperty(this, 'responseText', {
-            get: function () {
-              return customResponse;
-            }
-          });
-        }
-
-        window.postMessage({
-          from: 'requestly',
-          type: 'response_rule_applied',
-          id
-        }, window.location.href);
-      }
-    }, false);
-    open.apply(this, arguments);
-  };
-
-  let send = XMLHttpRequest.prototype.send;
-  XMLHttpRequest.prototype.send = function(data) {
-    this.requestData = data;
-    send.apply(this, arguments);
-  };
-
-  let setRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
-  XMLHttpRequest.prototype.setRequestHeader = function(header, value) {
-    this.requestHeaders = this.requestHeaders || {};
-    this.requestHeaders[header] = value;
-    setRequestHeader.apply(this, arguments);
-  }
-})('__REQUESTLY__')</script><head>
-<meta charset="UTF-8">
 <link rel="icon" href="../../favicon.ico" type="image/png">
 <title>Video List</title>
 <meta name="description" content="Wrapper: Inline's Public Video List">
-<link rel="stylesheet" type="text/css" href="https://web.archive.org/web/20201020195355cs_/https://wrapperinline-spark.tk/pages/css/modern-normalize.css">
-<link rel="stylesheet" type="text/css" href="https://web.archive.org/web/20201020195355cs_/https://wrapperinline-spark.tk/pages/css/global.css">
-<link rel="stylesheet" type="text/css" href="https://web.archive.org/web/20201020195355cs_/https://wrapperinline-spark.tk/pages/css/list.css">
-<script async="" src="/cdn-cgi/bm/cv/2172558837/api.js"></script><script async="" src="/cdn-cgi/bm/cv/669835187/api.js"></script></head>
-<body><div id="cf_alert_div"><style>#cf_alert_div{margin:0 0 5px;padding:0;position:relative;top:0;left:0;display:block;z-index:99999;background-color:#f7f7f8;box-shadow:0 5px 5px rgba(0,0,0,.25)}#cf_alert_div a,#cf_alert_div a:visited{text-decoration:none;color:#276d9b;font-weight:600}#cf_alert_div strong{font-weight:600}#cf_alert_div table{width:100%}#cf_alert_div table td{vertical-align:middle}#cf_alert_div p{margin:0;padding:0;max-width:1100px}#cf_alert_div .wrapper{padding:0;margin:0;text-align:left;font-family:-apple-system,system-ui,BlinkMacSystemFont,segoe ui,Roboto,Oxygen,Ubuntu,helvetica neue,Arial,sans-serif;font-weight:400;font-style:normal;font-size:12px;padding:16px 3.334%}#cf_alert_div .wrapper td.refresh{text-align:center;min-width:140px}#cf_alert_div .wrapper td.refresh a{display:inline-block;padding:8px 24px;border:1.5px solid #276d9b;border-radius:5px;margin-right:20px}#cf_alert_div .wrapper td.content{position:relative;padding-right:25px;color:#1d1f20;font-size:14px;max-width:900px}#cf_alert_div .wrapper .x{position:absolute;top:0;right:-12.5px;height:25px;width:25px;cursor:pointer}#cf_alert_div .wrapper .x .line{display:block;height:15px;width:3px;position:absolute;top:5px;left:11px;background:#4e5255}#cf_alert_div .wrapper .x .line:first-of-type{transform:rotate(135deg)}#cf_alert_div .wrapper .x .line:last-of-type{transform:rotate(45deg)}</style><div class="wrapper"><table><tbody><tr><td class="refresh"><a href="#" onclick="document.cookie='cf_use_ob=0;path=/';window.location.reload();return false;">Refresh</a><noscript style="margin:10px 0 10px 0;padding:0;font:12px Helvetica,Arial,sans-serif;color:#404040;display:block">(Enable JavaScript first.)</noscript></td><td class="content"><p>This website <strong>wrapperinline-spark.tk/pages/html/list.html</strong> is currently offline. <a href="https://www.cloudflare.com/always-online/" target="_blank">Cloudflare's Always Online™</a> shows a snapshot of this web page from the <a href="https://archive.org/web/" target="_blank">Internet Archive's Wayback Machine</a>. To check for the live version, click <strong>Refresh</strong>.</p><a class="x" href="javascript:void(null);" onclick="document.getElementById('cf_alert_div').style.display='none';"><span class="line"></span> <span class="line"></span></a></td></tr></tbody></table></div></div>
+<link rel="stylesheet" type="text/css" href="/pages/css/modern-normalize.css">
+<link rel="stylesheet" type="text/css" href="/pages/css/global.css">
+<link rel="stylesheet" type="text/css" href="/pages/css/list.css">
 <header>
 <h1 style="margin:0"><img id="logo" src="../img/list_logo.png" alt="Wrapper: Inline"></h1>
 <nav id="headbuttons">
